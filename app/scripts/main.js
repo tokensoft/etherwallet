@@ -60,7 +60,6 @@ if (IS_CX) {
   var cxFuncs                = require('./cxFuncs');
   window.cxFuncs             = cxFuncs;
 } else {
-  //  var assert               = require('./staticJS/assert');
     var u2f                  = require('./staticJS/u2f-api');
     var ledger3              = require('./staticJS/ledger3');
     var ledgerEth            = require('./staticJS/ledger-eth');
@@ -69,8 +68,6 @@ if (IS_CX) {
     var digitalBitboxUsb     = require('./staticJS/digitalBitboxUsb');
     var digitalBitboxEth     = require('./staticJS/digitalBitboxEth');
 
- //   window.assert            = assert;
-  //  window.ethutil           = ethutil;
     window.u2f               = u2f;
     window.Ledger3           = ledger3;
     window.ledgerEth         = ledgerEth;
