@@ -7,7 +7,8 @@
   "license": "ISC",
   "scripts": {
     "dev": "gulp",
-    "dist": "gulp clean"
+    "dist": "gulp clean",
+    "zip": "zip -r etherwallet.zip ./dist; shasum -a 256 etherwallet.zip"
   },
   "devDependencies": {
     "angular": "^1.6.2",
@@ -61,6 +62,7 @@
     "gulp-zip": "^4.0.0",
     "npm": "^4.5.0",
     "run-sequence": "^1.2.2",
+    "truffle-contract": "^2.0.5",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }

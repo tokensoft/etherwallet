@@ -2,7 +2,7 @@
 
   <!-- To Address -->
   <article class="clearfix">
-    <h2 class="col-xs-12" translate="OFFLINE_Step2_Title"> Step 2: Generate Transaction (Offline Computer) </h2>
+    <h2 class="col-xs-12"> Step 4: Generate Transaction for Multisig (Offline Computer) </h2>
 
     <address-field var-name="tx.to"></address-field>
 
