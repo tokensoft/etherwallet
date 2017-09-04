@@ -1293,68 +1293,22 @@ Rate: {{swapOrder.swapRate}} {{swapOrder.swapPair}}</textarea>
 
   <h1 translate="OFFLINE_Title"> Generate & Send Offline Transaction </h1>
 
-   <!-- Step 1 -->
-<article class="row block">
-
-  <h2 class="col-xs-11 clearfix" translate="OFFLLINE_Step1_Title">Step 1: Generate Information (Online Computer)</h2>
-
-  <!-- From Address Input -->
-  <section class="col-xs-11 clearfix">
-    <div class="account-help-icon"><img src="images/icon-help.svg" class="help-icon" />
-      <p class="account-help-text" translate="OFFLINE_Step1_Label_2">Note: This is the FROM address, not the TO address.</p>
-      <label translate="OFFLINE_Step1_Label_1"> From Address: </label>
-    </div>
-    <input class="form-control"
-           type="text"
-           placeholder="0x7cB57B5A97eAbe94205C07890BE4c1aD31E486A8"
-           ng-model="tx.from"
-           ng-change="validateAddress(tx.from,'')"
-           ng-class="Validator.isValidAddress(tx.from) ? 'is-valid' : 'is-invalid'" />
-  </section>
-  <!-- From Address Icon -->
-  <section class="col-xs-1 address-identicon-container">
-    <div class="addressIdenticon" title="Address Indenticon" blockie-address="{{tx.from}}" watch-var="tx.from"></div>
-  </section>
-
-
-  <!-- Button -->
-  <section class="col-xs-12 clearfix">
-    <a class="btn btn-info" ng-click="getWalletInfo()" translate="OFFLINE_Step1_Button">GENERATE INFORMATION</a>
-  </section>
-
-
-  <section class="clearfix" ng-show="showWalletInfo">
-
-    <!-- Gas Price -->
-    <div class="col-xs-6 col-sm-5">
-      <label translate="OFFLINE_Step2_Label_3"> Gas Price </label>
-      <input class="form-control" type="text" placeholder="" readonly="readonly" ng-model="gasPriceDec"/>
-    </div>
-
-    <!-- Nonce -->
-    <div class="col-xs-6 col-sm-5">
-      <label translate="OFFLINE_Step2_Label_5"> Nonce </label>
-      <input class="form-control" type="text" placeholder="" readonly="readonly" ng-model="nonceDec"/>
-    </div>
-
-  </section>
-
-</article>
-<!-- / Step 1 -->
- 
-  
-
    <article class="block">
   <!-- To Address -->
   <article class="clearfix">
-    <h2 class="col-xs-12"> Step 2: Submit Transaction to Recipient (Offline Computer) </h2>
-
-    <address-field var-name="tx.contract" name="recipient-submit" id="recipient-submit"></address-field>
-
-    <section class="col-xs-12">
-      <p>{{customGasMsg}}</p>
-    </section>
+    <h2 class="col-xs-12"> Step 1a: Generate Submit Tx Payload to Multisig </h2>
   </article>
+
+  <article class="clearfix">
+      <section class="col-sm-11">
+        <a class="account-help-icon" href="https://myetherwallet.groovehq.com/knowledge_base/topics/what-is-gas" target="_blank" rel="noopener">
+          <img src="images/icon-help.svg" class="help-icon" />
+          <p class="account-help-text" >21000 is the default gas limit. For multisig put min of 80,000 (will be refunded any not used)</p>
+        </a>
+        <label> Address to Send ETH </label>
+        <input class="form-control" type="text" placeholder="0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f0bE" id="target-address" name="target-address"/>
+      </section>
+    </article>
 
   <!-- Amount to Send -->
   <article class="clearfix">
@@ -1380,12 +1334,20 @@ Rate: {{swapOrder.swapRate}} {{swapOrder.swapPair}}</textarea>
         var recipient, value, web3
         try {
             value = document.getElementById("amount-submit").value
-            recipient = document.getElementById("recipient-submit").children[1].children[0].getAttribute('blockie-address')
+            console.log('value', value)
+            recipient = document.getElementById("target-address").value
+            console.log('recipient', recipient)
         } catch (e) {
             console.dir(e)
         }
 
         web3 = new Web3()
+
+        if(!web3.utils.isAddress(recipient)) {
+          document.getElementById("output-submit").value = 'Invalid Address'
+          document.getElementById("output-submit-box").style.display = "block"
+          return
+        }
 
         var valueInWei = web3.utils.toWei(value, 'ether')
 
@@ -1406,12 +1368,13 @@ Rate: {{swapOrder.swapRate}} {{swapOrder.swapPair}}</textarea>
    <article class="block">
   <!-- Transaction ID -->
   <article class="clearfix">
-    <h2 class="col-xs-12"> Step 3: Generate Confirmation Payload </h2>
+    <h2 class="col-xs-12"> Step 1b: Generate Confirm Tx Payload </h2>
 
     <div class="col-sm-6 col-xs-12">
-        <p> Paste a transaction </p>
-        <label > Transaction ID</label>
-        <textarea id="txid-confirm" class="form-control" rows="7" ></textarea>
+        <label > Transaction ID From Multisig Wallet Contract</label>
+        <div class="input-group">
+            <input class="form-control" type="text" placeholder="1" id="transaction-id" name="transaction-id"/>
+        </div>
     </div>
     <section class="col-xs-12">
       <p>{{customGasMsg}}</p>
@@ -1432,7 +1395,7 @@ Rate: {{swapOrder.swapRate}} {{swapOrder.swapPair}}</textarea>
 
         var address, txid
         try {
-            txid = document.getElementById("txid-confirm").value
+            txid = document.getElementById("transaction-id").value
         } catch (e) {
             console.dir(e)
         }
@@ -1456,9 +1419,9 @@ Rate: {{swapOrder.swapRate}} {{swapOrder.swapPair}}</textarea>
 
   <!-- To Address -->
   <article class="clearfix">
-    <h2 class="col-xs-12"> Step 4: Generate Transaction for Multisig (Offline Computer) </h2>
+    <h2 class="col-xs-12"> Step 2: Generate Transaction for Multisig (Offline Computer) </h2>
 
-    <address-field var-name="tx.to"></address-field>
+    <address-field var-name="tx.to" labeltranslated="Multisig Contract Address"></address-field>
 
     <section class="col-xs-12">
       <p>{{customGasMsg}}</p>
@@ -1468,11 +1431,11 @@ Rate: {{swapOrder.swapRate}} {{swapOrder.swapPair}}</textarea>
   <!-- Amount to Send -->
   <article class="clearfix">
     <section class="col-sm-11">
-      <label translate="OFFLINE_Step2_Label_2">
-        Amount to Send
+      <label >
+        Amount to Send To Multisig (usually 0)
       </label>
       <div class="input-group">
-        <input class="form-control" type="text" placeholder="{{'SEND_amount_short' | translate }}" ng-model="tx.value"/>
+        <input class="form-control" type="text" placeholder="0" ng-model="tx.value"/>
         <div class="input-group-btn">
           <a style="min-width: 150px"
              class="btn btn-default dropdown-toggle"
@@ -1496,7 +1459,7 @@ Rate: {{swapOrder.swapRate}} {{swapOrder.swapPair}}</textarea>
     <section class="col-sm-11">
       <a class="account-help-icon" href="https://myetherwallet.groovehq.com/knowledge_base/topics/what-is-gas" target="_blank" rel="noopener">
         <img src="images/icon-help.svg" class="help-icon" />
-        <p class="account-help-text" translate="OFFLINE_Step2_Label_4b">21000 is the default gas limit.</p>
+        <p class="account-help-text" >21000 is the default gas limit. For multisig put min of 80,000 (will be refunded any not used)</p>
       </a>
       <label translate="OFFLINE_Step2_Label_4"> Gas Limit </label>
       <input class="form-control" type="text" placeholder="" ng-model="tx.gasLimit"/>
@@ -1510,7 +1473,7 @@ Rate: {{swapOrder.swapRate}} {{swapOrder.swapPair}}</textarea>
         <img src="images/icon-help.svg" class="help-icon" />
         <p class="account-help-text" translate="OFFLINE_Step2_Label_3b">This was displayed in Step 1</p>
       </a>
-      <label translate="OFFLINE_Step2_Label_3"> Gas Price </label>
+      <label> Gas Price (From online step) </label>
       <div class="input-group">
         <input type="text"
                class="form-control"
@@ -1533,7 +1496,7 @@ Rate: {{swapOrder.swapRate}} {{swapOrder.swapPair}}</textarea>
         <img src="images/icon-help.svg" class="help-icon" />
         <p class="account-help-text" translate="OFFLINE_Step2_Label_5b">This was displayed in Step 1.</p>
       </a>
-      <label translate="OFFLINE_Step2_Label_5"> Nonce </label>
+      <label > Nonce (From online step)</label>
       <input class="form-control" type="text" placeholder="" ng-model="nonceDec"/>
     </section>
   </article>
@@ -1546,7 +1509,7 @@ Rate: {{swapOrder.swapRate}} {{swapOrder.swapPair}}</textarea>
         <img src="images/icon-help.svg" class="help-icon" />
         <p class="account-help-text" translate="OFFLINE_Step2_Label_6b">This is optional.</p>
       </span>
-      <label translate="OFFLINE_Step2_Label_6"> Data </label>
+      <label> Data Payload from step 1</label>
       <input class="form-control" type="text" placeholder="0x4d792045746865722057616c6c6574" id="offlineData" ng-model="tx.data" />
     </section>
   </article>

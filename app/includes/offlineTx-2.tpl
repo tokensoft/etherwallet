@@ -2,9 +2,9 @@
 
   <!-- To Address -->
   <article class="clearfix">
-    <h2 class="col-xs-12"> Step 4: Generate Transaction for Multisig (Offline Computer) </h2>
+    <h2 class="col-xs-12"> Step 2: Generate Transaction for Multisig (Offline Computer) </h2>
 
-    <address-field var-name="tx.to"></address-field>
+    <address-field var-name="tx.to" labeltranslated="Multisig Contract Address"></address-field>
 
     <section class="col-xs-12">
       <p>{{customGasMsg}}</p>
@@ -14,11 +14,11 @@
   <!-- Amount to Send -->
   <article class="clearfix">
     <section class="col-sm-11">
-      <label translate="OFFLINE_Step2_Label_2">
-        Amount to Send
+      <label >
+        Amount to Send To Multisig (usually 0)
       </label>
       <div class="input-group">
-        <input class="form-control" type="text" placeholder="{{'SEND_amount_short' | translate }}" ng-model="tx.value"/>
+        <input class="form-control" type="text" placeholder="0" ng-model="tx.value"/>
         <div class="input-group-btn">
           <a style="min-width: 150px"
              class="btn btn-default dropdown-toggle"
@@ -42,7 +42,7 @@
     <section class="col-sm-11">
       <a class="account-help-icon" href="https://myetherwallet.groovehq.com/knowledge_base/topics/what-is-gas" target="_blank" rel="noopener">
         <img src="images/icon-help.svg" class="help-icon" />
-        <p class="account-help-text" translate="OFFLINE_Step2_Label_4b">21000 is the default gas limit.</p>
+        <p class="account-help-text" >21000 is the default gas limit. For multisig put min of 80,000 (will be refunded any not used)</p>
       </a>
       <label translate="OFFLINE_Step2_Label_4"> Gas Limit </label>
       <input class="form-control" type="text" placeholder="" ng-model="tx.gasLimit"/>
@@ -56,7 +56,7 @@
         <img src="images/icon-help.svg" class="help-icon" />
         <p class="account-help-text" translate="OFFLINE_Step2_Label_3b">This was displayed in Step 1</p>
       </a>
-      <label translate="OFFLINE_Step2_Label_3"> Gas Price </label>
+      <label> Gas Price (From online step) </label>
       <div class="input-group">
         <input type="text"
                class="form-control"
@@ -79,7 +79,7 @@
         <img src="images/icon-help.svg" class="help-icon" />
         <p class="account-help-text" translate="OFFLINE_Step2_Label_5b">This was displayed in Step 1.</p>
       </a>
-      <label translate="OFFLINE_Step2_Label_5"> Nonce </label>
+      <label > Nonce (From online step)</label>
       <input class="form-control" type="text" placeholder="" ng-model="nonceDec"/>
     </section>
   </article>
@@ -92,7 +92,7 @@
         <img src="images/icon-help.svg" class="help-icon" />
         <p class="account-help-text" translate="OFFLINE_Step2_Label_6b">This is optional.</p>
       </span>
-      <label translate="OFFLINE_Step2_Label_6"> Data </label>
+      <label> Data Payload from step 1</label>
       <input class="form-control" type="text" placeholder="0x4d792045746865722057616c6c6574" id="offlineData" ng-model="tx.data" />
     </section>
   </article>
