@@ -1,7 +1,7 @@
 <article class="row block">
 
   <div class="col-xs-12">
-    <h2> Step 5: Send / Publish Transaction </h2>
+    <h2> Step 3: Send / Publish Transaction </h2>
   </div>
 
   <div class="col-sm-6 col-xs-12">

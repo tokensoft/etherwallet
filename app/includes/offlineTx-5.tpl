@@ -1,12 +1,13 @@
 <article class="block">
   <!-- Transaction ID -->
   <article class="clearfix">
-    <h2 class="col-xs-12"> Step 3: Generate Confirmation Payload </h2>
+    <h2 class="col-xs-12"> Step 1b: Generate Confirm Tx Payload </h2>
 
     <div class="col-sm-6 col-xs-12">
-        <p> Paste a transaction </p>
-        <label > Transaction ID</label>
-        <textarea id="txid-confirm" class="form-control" rows="7" ></textarea>
+        <label > Transaction ID From Multisig Wallet Contract</label>
+        <div class="input-group">
+            <input class="form-control" type="text" placeholder="1" id="transaction-id" name="transaction-id"/>
+        </div>
     </div>
     <section class="col-xs-12">
       <p>{{customGasMsg}}</p>
@@ -27,7 +28,7 @@
 
         var address, txid
         try {
-            txid = document.getElementById("txid-confirm").value
+            txid = document.getElementById("transaction-id").value
         } catch (e) {
             console.dir(e)
         }

@@ -1,14 +1,19 @@
 <article class="block">
   <!-- To Address -->
   <article class="clearfix">
-    <h2 class="col-xs-12"> Step 2: Submit Transaction to Recipient (Offline Computer) </h2>
-
-    <address-field var-name="tx.contract" name="recipient-submit" id="recipient-submit"></address-field>
-
-    <section class="col-xs-12">
-      <p>{{customGasMsg}}</p>
-    </section>
+    <h2 class="col-xs-12"> Step 1a: Generate Submit Tx Payload to Multisig </h2>
   </article>
+
+  <article class="clearfix">
+      <section class="col-sm-11">
+        <a class="account-help-icon" href="https://myetherwallet.groovehq.com/knowledge_base/topics/what-is-gas" target="_blank" rel="noopener">
+          <img src="images/icon-help.svg" class="help-icon" />
+          <p class="account-help-text" >21000 is the default gas limit. For multisig put min of 80,000 (will be refunded any not used)</p>
+        </a>
+        <label> Address to Send ETH </label>
+        <input class="form-control" type="text" placeholder="0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f0bE" id="target-address" name="target-address"/>
+      </section>
+    </article>
 
   <!-- Amount to Send -->
   <article class="clearfix">
@@ -34,12 +39,20 @@
         var recipient, value, web3
         try {
             value = document.getElementById("amount-submit").value
-            recipient = document.getElementById("recipient-submit").children[1].children[0].getAttribute('blockie-address')
+            console.log('value', value)
+            recipient = document.getElementById("target-address").value
+            console.log('recipient', recipient)
         } catch (e) {
             console.dir(e)
         }
 
         web3 = new Web3()
+
+        if(!web3.utils.isAddress(recipient)) {
+          document.getElementById("output-submit").value = 'Invalid Address'
+          document.getElementById("output-submit-box").style.display = "block"
+          return
+        }
 
         var valueInWei = web3.utils.toWei(value, 'ether')
 

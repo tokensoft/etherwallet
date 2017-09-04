@@ -64,6 +64,7 @@
     "run-sequence": "^1.2.2",
     "truffle-contract": "^2.0.5",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "web3": "^1.0.0-beta.18"
   }
 }
