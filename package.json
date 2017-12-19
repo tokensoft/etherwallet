@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "gulp",
     "dist": "gulp clean",
-    "zip": "zip -r etherwallet.zip ./dist; shasum -a 256 etherwallet.zip"
+    "zip": "zip -r etherwallet.zip ./dist; shasum -a 256 etherwallet.zip",
+    "localhost" :"http-server ./dist/ --ssl --cert certificate.pem --key key.pem"
   },
   "devDependencies": {
     "angular": "^1.6.2",
@@ -60,6 +61,7 @@
     "gulp-template": "^4.0.0",
     "gulp-uglify": "^2.0.1",
     "gulp-zip": "^4.0.0",
+    "http-server": "^0.10.0",
     "npm": "^4.5.0",
     "run-sequence": "^1.2.2",
     "truffle-contract": "^2.0.5",
